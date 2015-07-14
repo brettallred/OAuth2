@@ -79,6 +79,8 @@ namespace OAuth2.Models
         public AvatarInfo AvatarUri { get; private set; }
 
 		public string Username { get; set; }
+
+        public string CompanyGuid { get; set; }
     }
 }
 
