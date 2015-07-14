@@ -62,7 +62,7 @@ namespace OAuth2.Client.Impl
 				return new Endpoint
 				{
                     BaseUri = Configuration.BaseUri,
-					Resource = "/oauth/user.json"                    
+					Resource = "/oauth/user.json"
 				};
 			}
 		}
@@ -85,7 +85,7 @@ namespace OAuth2.Client.Impl
 					Type  = ParameterType.GetOrPost,
 					Value = AccessToken
 				});
-		}                        
+		}
 
         /// <summary>
         /// Should return parsed <see cref="UserInfo"/> from content received from third-party service.
@@ -99,7 +99,8 @@ namespace OAuth2.Client.Impl
             {
                 Id = response["guid"].Value<string>(),
                 Email = response["email"].SafeGet(x => x.Value<string>()),
-				Username = response["username"].SafeGet(x => x.Value<string>())
+				Username = response["username"].SafeGet(x => x.Value<string>()),
+                CompanyGuid = response["company"]["guid"].SafeGet(x => x.Value<string>())
             };
         }
     }
