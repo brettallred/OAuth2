@@ -100,7 +100,7 @@ namespace OAuth2.Client.Impl
                 Id = response["guid"].Value<string>(),
                 Email = response["email"].SafeGet(x => x.Value<string>()),
 				Username = response["username"].SafeGet(x => x.Value<string>()),
-                CompanyGuid = response["company"]["guid"].SafeGet(x => x.Value<string>())
+                CompanyGuid = response["current_company_guid"].SafeGet(x => x.Value<string>())
             };
         }
     }
