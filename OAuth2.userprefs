@@ -1,11 +1,13 @@
 ﻿<Properties StartupItem="OAuth2.Example2/OAuth2.Example2.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="OAuth2/Configuration/RuntimeClientConfiguration.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="OAuth2/Client/OAuthClient.cs">
     <Files>
-      <File FileName="OAuth2.Example2/Web.config" Line="1" Column="1" />
-      <File FileName="OAuth2/Client/OAuth2Client.cs" Line="10" Column="10" />
-      <File FileName="OAuth2/Configuration/ClientConfiguration.cs" Line="25" Column="25" />
-      <File FileName="OAuth2/Configuration/RuntimeClientConfiguration.cs" Line="2" Column="2" />
+      <File FileName="OAuth2/Client/OAuthClient.cs" Line="56" Column="56" />
+      <File FileName="OAuth2.Example2/Web.config" Line="1" Column="1" NotebookId="1" />
+      <File FileName="OAuth2/Client/IClient.cs" Line="17" Column="17" NotebookId="1" />
+      <File FileName="OAuth2/Client/OAuth2Client.cs" Line="13" Column="13" NotebookId="1" />
+      <File FileName="OAuth2/Configuration/ClientConfiguration.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="OAuth2/Configuration/RuntimeClientConfiguration.cs" Line="2" Column="2" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
