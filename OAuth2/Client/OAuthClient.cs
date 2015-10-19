@@ -73,6 +73,34 @@ namespace OAuth2.Client
         }
 
         /// <summary>
+        /// When the domain is not nuvi.com, such as whitelabeled domains.
+        /// Returns URI of service which should be called in order to start authentication process.
+        /// This URI includes the authentication endpoint and a redirect url, 
+        /// and should be used for rendering login link.
+        /// </summary>
+        /// <param name = redirectDomain>
+        /// The domain for the redirect url after authentication.
+        /// </param>
+        public virtual string GetCustomDomainLoginLinkUri(string redirectDomain)
+        {
+            if (string.IsNullOrWhiteSpace(redirectDomain))
+            {
+                throw new NotSupportedException("Empty redirect domain is not supported by current implementaion.");
+            }
+            QueryRequestToken();
+            var client = _factory.CreateClient(LoginServiceEndpoint);
+            var request = _factory.CreateRequest(LoginServiceEndpoint);
+            request.AddObject(new
+                {
+                    response_type = "code",
+                    client_id = Configuration.ClientId,
+                    redirect_uri = redirectDomain + Configuration.AuthPath,
+                    scope = Configuration.Scope
+                });
+            return client.BuildUri(request).ToString();
+        }
+
+        /// <summary>
         /// Obtains user information using third-party authentication service
         /// using data provided via callback request.
         /// </summary>

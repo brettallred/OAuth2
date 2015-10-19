@@ -31,6 +31,12 @@ namespace OAuth2.Client
         string GetLoginLinkUri(string state = null);
 
         /// <summary>
+        /// Returns URI of service which should be called in order to start authentication process.
+        /// This will generate a redirect login url based on the x-forwarded-host passed in.
+        /// </summary>
+        string GetCustomDomainLoginLinkUri(string redirectDomain);
+
+        /// <summary>
         /// State which was posted as additional parameter 
         /// to service and then received along with main answer.
         /// </summary>

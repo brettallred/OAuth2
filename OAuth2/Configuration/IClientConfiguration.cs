@@ -46,5 +46,11 @@ namespace OAuth2.Configuration
         /// </summary>
         /// <value>The base URI.</value>
         string BaseUri { get; }
+
+        /// <summary>
+        /// Gets the auth Path for the redirect url.
+        /// </summary>
+        /// <value>The auth Path.</value>
+        string AuthPath { get; }
     }
 }

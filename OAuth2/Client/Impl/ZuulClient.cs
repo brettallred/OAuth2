@@ -94,17 +94,13 @@ namespace OAuth2.Client.Impl
         protected override UserInfo ParseUserInfo(string content)
         {
             var response = JObject.Parse(content);
-            var companyGuid = response ["company"] ["guid"].SafeGet (x => x.Value<string> ());
-            if (String.IsNullOrEmpty(companyGuid)) {
-                companyGuid = response ["current_company_guid"].SafeGet (x => x.Value<string> ());
-            }
 
             return new UserInfo
             {
                 Id = response["guid"].Value<string>(),
                 Email = response["email"].SafeGet(x => x.Value<string>()),
 				Username = response["username"].SafeGet(x => x.Value<string>()),
-                CompanyGuid = companyGuid
+                CompanyGuid = response ["current_company_guid"].SafeGet (x => x.Value<string> ())
             };
         }
     }

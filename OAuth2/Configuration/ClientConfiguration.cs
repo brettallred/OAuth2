@@ -16,6 +16,7 @@ namespace OAuth2.Configuration
         private const string ScopeKey = "scope";
         private const string RedirectUriKey = "redirectUri";
         private const string BaseUriKey = "baseUri";
+        private const string AuthPathKey = "authPath";
 
         /// <summary>
         /// Base Uri (BaseUri of your application).
@@ -90,6 +91,15 @@ namespace OAuth2.Configuration
             get
             {
                 return UriUtility.ToAbsolute((string) this[RedirectUriKey]);
+            }
+        }
+
+        [ConfigurationProperty(AuthPathKey, IsRequired = true)]
+        public string AuthPath
+        {
+            get
+            {
+                return (string) this[AuthPathKey];
             }
         }
     }

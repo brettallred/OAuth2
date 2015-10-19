@@ -109,12 +109,6 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OAuth2\OAuth2.csproj">
-      <Project>{C95637CD-25E5-483E-9C74-89FE3ADB999B}</Project>
-      <Name>OAuth2</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\Auth.cshtml" />
   </ItemGroup>
   <PropertyGroup>
@@ -156,4 +150,10 @@
     </MonoDevelop>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\OAuth2\OAuth2.csproj">
+      <Project>{C95637CD-25E5-483E-9C74-89FE3ADB999B}</Project>
+      <Name>OAuth2</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
