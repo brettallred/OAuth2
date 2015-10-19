@@ -47,5 +47,11 @@
         /// </summary>
         /// <value>The base URI.</value>
         public string BaseUri { get; set; }
+
+        /// <summary>
+        /// Gets the auth Path for the redirect url.
+        /// </summary>
+        /// <value>The auth Path.</value>
+        public string AuthPath { get; set; }
     }
 }
