@@ -85,8 +85,8 @@ namespace OAuth2.Client
             var redirectUri = ("https://" + redirectDomain + Configuration.AuthPath);
 
             Endpoint authEndpoint = new Endpoint();
-            authEndpoint.BaseUri = "https://" + redirectDomain;
-            authEndpoint.Resource = "/authenticate";
+            authEndpoint.BaseUri = redirectDomain;
+            authEndpoint.Resource = "/authenticate/";
             var client = _factory.CreateClient(authEndpoint);
             var request = _factory.CreateRequest(authEndpoint);
 
