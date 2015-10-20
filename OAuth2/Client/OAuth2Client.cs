@@ -74,7 +74,7 @@ namespace OAuth2.Client
         /// <summary>
         /// When the domain is not nuvi.com, such as whitelabeled domains.
         /// Returns URI of service which should be called in order to start authentication process.
-        /// This URI includes the authentication endpoint and a redirect url, 
+        /// This URI includes the authentication endpoint and a redirect url,
         /// and should be used for rendering login link.
         /// </summary>
         /// <param name = redirectDomain>
@@ -82,13 +82,15 @@ namespace OAuth2.Client
         /// </param>
         public virtual string GetCustomDomainLoginLinkUri(string redirectDomain)
         {
+            var redirectUri = ("https://" + redirectDomain + Configuration.AuthPath);
+
             var client = _factory.CreateClient(AccessCodeServiceEndpoint);
             var request = _factory.CreateRequest(AccessCodeServiceEndpoint);
             request.AddObject(new
                 {
                     response_type = "code",
                     client_id = Configuration.ClientId,
-                    redirect_uri = redirectDomain + Configuration.AuthPath,
+                    redirect_uri = redirectUri,
                     scope = Configuration.Scope
                 });
             return client.BuildUri(request).ToString();
@@ -127,7 +129,7 @@ namespace OAuth2.Client
         protected abstract Endpoint AccessTokenServiceEndpoint { get; }
 
         /// <summary>
-        /// Defines URI of service which allows to obtain information about user 
+        /// Defines URI of service which allows to obtain information about user
         /// who is currently logged in.
         /// </summary>
         protected abstract Endpoint UserInfoServiceEndpoint { get; }
