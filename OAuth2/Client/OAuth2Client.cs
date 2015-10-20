@@ -83,10 +83,13 @@ namespace OAuth2.Client
         public virtual string GetCustomDomainLoginLinkUri(string redirectDomain)
         {
             var redirectUri = ("https://" + redirectDomain + Configuration.AuthPath);
-            var authenticationUri = ("https://" + redirectDomain + "/authenticate");
 
-            var client = _factory.CreateClient(authenticationUri);
-            var request = _factory.CreateRequest(authenticationUri);
+            Endpoint authEndpoint = new Endpoint();
+            authEndpoint.BaseUri = "https://" + redirectDomain;
+            authEndpoint.Resource = "/authenticate";
+            var client = _factory.CreateClient(authEndpoint);
+            var request = _factory.CreateRequest(authEndpoint);
+
             request.AddObject(new
                 {
                     response_type = "code",
