@@ -74,21 +74,29 @@ namespace OAuth2.Client
         /// <summary>
         /// When the domain is not nuvi.com, such as whitelabeled domains.
         /// Returns URI of service which should be called in order to start authentication process.
-        /// This URI includes the authentication endpoint and a redirect url, 
+        /// This URI includes the authentication endpoint and a redirect url,
         /// and should be used for rendering login link.
         /// </summary>
         /// <param name = redirectDomain>
         /// The domain for the redirect url after authentication.
         /// </param>
-        public virtual string GetCustomDomainLoginLinkUri(string redirectDomain)
+        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain)
         {
-            var client = _factory.CreateClient(AccessCodeServiceEndpoint);
-            var request = _factory.CreateRequest(AccessCodeServiceEndpoint);
+            var scheme = isSecure ? "https://" : "http://";
+            var baseUri = scheme + redirectDomain;
+            var redirectUri = (scheme + redirectDomain + Configuration.AuthPath);
+
+            Endpoint authEndpoint = new Endpoint();
+            authEndpoint.BaseUri = baseUri;
+            authEndpoint.Resource = "/authenticate/";
+            var client = _factory.CreateClient(authEndpoint);
+            var request = _factory.CreateRequest(authEndpoint);
+
             request.AddObject(new
                 {
                     response_type = "code",
                     client_id = Configuration.ClientId,
-                    redirect_uri = redirectDomain + Configuration.AuthPath,
+                    redirect_uri = redirectUri,
                     scope = Configuration.Scope
                 });
             return client.BuildUri(request).ToString();
@@ -127,7 +135,7 @@ namespace OAuth2.Client
         protected abstract Endpoint AccessTokenServiceEndpoint { get; }
 
         /// <summary>
-        /// Defines URI of service which allows to obtain information about user 
+        /// Defines URI of service which allows to obtain information about user
         /// who is currently logged in.
         /// </summary>
         protected abstract Endpoint UserInfoServiceEndpoint { get; }
