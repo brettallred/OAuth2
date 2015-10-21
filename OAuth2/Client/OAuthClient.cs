@@ -81,7 +81,7 @@ namespace OAuth2.Client
         /// <param name = redirectDomain>
         /// The domain for the redirect url after authentication.
         /// </param>
-        public virtual string GetCustomDomainLoginLinkUri(string redirectDomain)
+        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain)
         {
             if (string.IsNullOrWhiteSpace(redirectDomain))
             {

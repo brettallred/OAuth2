@@ -80,12 +80,14 @@ namespace OAuth2.Client
         /// <param name = redirectDomain>
         /// The domain for the redirect url after authentication.
         /// </param>
-        public virtual string GetCustomDomainLoginLinkUri(string redirectDomain)
+        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain)
         {
-            var redirectUri = ("https://" + redirectDomain + Configuration.AuthPath);
+            var scheme = isSecure ? "https://" : "http://";
+            var baseUri = scheme + redirectDomain;
+            var redirectUri = (scheme + redirectDomain + Configuration.AuthPath);
 
             Endpoint authEndpoint = new Endpoint();
-            authEndpoint.BaseUri = redirectDomain;
+            authEndpoint.BaseUri = baseUri;
             authEndpoint.Resource = "/authenticate/";
             var client = _factory.CreateClient(authEndpoint);
             var request = _factory.CreateRequest(authEndpoint);
