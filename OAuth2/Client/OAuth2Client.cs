@@ -88,7 +88,7 @@ namespace OAuth2.Client
 
             Endpoint authEndpoint = new Endpoint();
             authEndpoint.BaseUri = baseUri;
-            authEndpoint.Resource = "/authenticate/";
+            authEndpoint.Resource = "/authenticate/oauth/authorize";
             var client = _factory.CreateClient(authEndpoint);
             var request = _factory.CreateRequest(authEndpoint);
 
