@@ -120,6 +120,24 @@ namespace OAuth2.Client
         }
 
         /// <summary>
+        /// Obtains user information using OAuth2 service and data provided via callback request.
+        /// Use case is for customers with custom domains (i.e. Whitelabel)
+        /// </summary>
+        /// <returns>The user info for custom domain.</returns>
+        /// <param name="parameters">Query Parameters.</param>
+        /// <param name="isSecure">Specifies whether or not the request is https or not.</param>
+        /// <param name="customDomain">Custom domain for whitelabel company.</param>
+        public UserInfo GetCustomDomainUserInfo(NameValueCollection parameters, bool isSecure, string customDomain)
+        {
+            AccessToken = parameters.GetOrThrowUnexpectedResponse(OAuthTokenKey);
+            QueryAccessToken(parameters.GetOrThrowUnexpectedResponse("oauth_verifier"));
+
+            var result = ParseUserInfo(QueryUserInfo());
+            result.ProviderName = Name;
+            return result;
+        }
+
+        /// <summary>
         /// Defines URI of service which is called for obtaining request token.
         /// </summary>
         protected abstract Endpoint RequestTokenServiceEndpoint { get; }
