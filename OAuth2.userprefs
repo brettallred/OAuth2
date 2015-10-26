@@ -9,11 +9,11 @@
       <File FileName="OAuth2/Configuration/ClientConfiguration.cs" Line="1" Column="1" />
       <File FileName="OAuth2/Configuration/RuntimeClientConfiguration.cs" Line="1" Column="1" />
       <File FileName="OAuth2/Models/UserInfo.cs" Line="1" Column="1" />
-      <File FileName="OAuth2/Infrastructure/RequestFactoryExtensions.cs" Line="20" Column="9" />
+      <File FileName="OAuth2/Infrastructure/RequestFactoryExtensions.cs" Line="1" Column="1" />
       <File FileName="OAuth2/Client/Endpoint.cs" Line="1" Column="1" />
-      <File FileName="OAuth2/Infrastructure/RestClientExtensions.cs" Line="9" Column="9" />
-      <File FileName="OAuth2/Client/BeforeAfterRequestArgs.cs" Line="34" Column="48" />
-      <File FileName="OAuth2/Client/Impl/GitHubClient.cs" Line="20" Column="33" />
+      <File FileName="OAuth2/Infrastructure/RestClientExtensions.cs" Line="1" Column="1" />
+      <File FileName="OAuth2/Client/BeforeAfterRequestArgs.cs" Line="1" Column="1" />
+      <File FileName="OAuth2/Client/Impl/GitHubClient.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

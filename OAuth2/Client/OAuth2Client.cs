@@ -163,7 +163,7 @@ namespace OAuth2.Client
         {
             Endpoint tokenEndpoint = new Endpoint();
             tokenEndpoint.BaseUri = baseUri;
-            tokenEndpoint.Resource = "authenticate/oauth/token";
+            tokenEndpoint.Resource = "/authenticate/oauth/token";
             return tokenEndpoint;
         }
 
