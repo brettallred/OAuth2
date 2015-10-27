@@ -78,13 +78,13 @@ namespace OAuth2.Client
         /// This URI includes the authentication endpoint and a redirect url,
         /// and should be used for rendering login link.
         /// </summary>
-        /// <param name="isSecure">Specifies whether or not the request is https or not></param>
+        /// <param name="requestScheme">Specifies http or https></param>
         /// <param name="redirectDomain">
         /// The domain for the redirect url after authentication.
         /// </param>
-        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain, string state = null)
+        public virtual string GetCustomDomainLoginLinkUri(string requestScheme, string redirectDomain, string state = null)
         {
-            var scheme = isSecure ? "https://" : "http://";
+            var scheme = requestScheme + "://";
             var baseUri = scheme + redirectDomain;
 
             var authEndpoint = CustomDomainAccessCodeServiceEndpoint(baseUri);
@@ -220,11 +220,11 @@ namespace OAuth2.Client
         /// Use case is for whitelabel company authentication.
         /// </summary>
         /// <param name="parameters">Query parameters.</param>
-        /// <param name="isSecure">Specifies whether or not the request is https or not.</param>
+        /// <param name="requestScheme">Specifies https or http.</param>
         /// <param name="customDomain">Custom domain for whitelabel company.</param>
-            private void CustomDomainQueryAccessToken(NameValueCollection parameters, bool isSecure, string customDomain)
+            private void CustomDomainQueryAccessToken(NameValueCollection parameters, string requestScheme, string customDomain)
         {
-            var scheme = isSecure ? "https://" : "http://";
+            var scheme = requestScheme + "://";
             var baseUri = scheme + customDomain;
 
             var tokenServiceEndpoint = CustomDomainAccessTokenServiceEndpoint(baseUri);
