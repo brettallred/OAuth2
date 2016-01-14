@@ -81,7 +81,7 @@ namespace OAuth2.Client
         /// <param name = redirectDomain>
         /// The domain for the redirect url after authentication.
         /// </param>
-        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain)
+        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain, string state = null)
         {
             if (string.IsNullOrWhiteSpace(redirectDomain))
             {
@@ -95,7 +95,8 @@ namespace OAuth2.Client
                     response_type = "code",
                     client_id = Configuration.ClientId,
                     redirect_uri = redirectDomain + Configuration.AuthPath,
-                    scope = Configuration.Scope
+                    scope = Configuration.Scope,
+                    state
                 });
             return client.BuildUri(request).ToString();
         }
