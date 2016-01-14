@@ -80,7 +80,7 @@ namespace OAuth2.Client
         /// <param name = redirectDomain>
         /// The domain for the redirect url after authentication.
         /// </param>
-        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain)
+        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain, string state = null)
         {
             var scheme = isSecure ? "https://" : "http://";
             var baseUri = scheme + redirectDomain;
@@ -97,7 +97,8 @@ namespace OAuth2.Client
                     response_type = "code",
                     client_id = Configuration.ClientId,
                     redirect_uri = redirectUri,
-                    scope = Configuration.Scope
+                    scope = Configuration.Scope,
+                    state
                 });
             return client.BuildUri(request).ToString();
         }
