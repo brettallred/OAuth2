@@ -81,7 +81,7 @@ namespace OAuth2.Client
         /// <param name = redirectDomain>
         /// The domain for the redirect url after authentication.
         /// </param>
-        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain, string state = null)
+        public virtual string GetCustomDomainLoginLinkUri(string requestScheme, string redirectDomain, string state = null)
         {
             if (string.IsNullOrWhiteSpace(redirectDomain))
             {
@@ -127,7 +127,7 @@ namespace OAuth2.Client
         /// <param name="parameters">Query Parameters.</param>
         /// <param name="isSecure">Specifies whether or not the request is https or not.</param>
         /// <param name="customDomain">Custom domain for whitelabel company.</param>
-        public UserInfo GetCustomDomainUserInfo(NameValueCollection parameters, bool isSecure, string customDomain)
+        public UserInfo GetCustomDomainUserInfo(NameValueCollection parameters, string requestScheme, string customDomain)
         {
             AccessToken = parameters.GetOrThrowUnexpectedResponse(OAuthTokenKey);
             QueryAccessToken(parameters.GetOrThrowUnexpectedResponse("oauth_verifier"));

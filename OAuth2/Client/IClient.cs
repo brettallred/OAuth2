@@ -34,7 +34,7 @@ namespace OAuth2.Client
         /// Returns URI of service which should be called in order to start authentication process.
         /// This will generate a redirect login url based on the x-forwarded-host passed in.
         /// </summary>
-        string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain, string state = null);
+        string GetCustomDomainLoginLinkUri(string requestScheme, string redirectDomain, string state = null);
 
         /// <summary>
         /// State which was posted as additional parameter 
@@ -60,7 +60,7 @@ namespace OAuth2.Client
         /// <param name="parameters">Query Parameters.</param>
         /// <param name="isSecure">Specifies whether or not the request is https or not.</param>
         /// <param name="customDomain">Custom domain for whitelabel company.</param>
-        UserInfo GetCustomDomainUserInfo(NameValueCollection parameters, bool isSecure, string customDomain);
+        UserInfo GetCustomDomainUserInfo(NameValueCollection parameters, string requestScheme, string customDomain);
 
         /// <summary>
         /// Client configuration object.

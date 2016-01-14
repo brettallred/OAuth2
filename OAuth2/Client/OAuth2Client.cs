@@ -123,10 +123,10 @@ namespace OAuth2.Client
         /// <param name="parameters">Query Parameters.</param>
         /// <param name="isSecure">Specifies whether or not the request is https or not.</param>
         /// <param name="customDomain">Custom domain for whitelabel company.</param>
-        public UserInfo GetCustomDomainUserInfo(NameValueCollection parameters, bool isSecure, string customDomain)
+        public UserInfo GetCustomDomainUserInfo(NameValueCollection parameters, string requestScheme, string customDomain)
         {
             CheckErrorAndSetState(parameters);
-            CustomDomainQueryAccessToken(parameters, isSecure, customDomain);
+            CustomDomainQueryAccessToken(parameters, requestScheme, customDomain);
             return GetUserInfo();
         }
 
@@ -222,7 +222,7 @@ namespace OAuth2.Client
         /// <param name="parameters">Query parameters.</param>
         /// <param name="requestScheme">Specifies https or http.</param>
         /// <param name="customDomain">Custom domain for whitelabel company.</param>
-            private void CustomDomainQueryAccessToken(NameValueCollection parameters, string requestScheme, string customDomain)
+        private void CustomDomainQueryAccessToken(NameValueCollection parameters, string requestScheme, string customDomain)
         {
             var scheme = requestScheme + "://";
             var baseUri = scheme + customDomain;
