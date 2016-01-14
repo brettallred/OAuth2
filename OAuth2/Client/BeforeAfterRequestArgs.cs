@@ -30,5 +30,7 @@ namespace OAuth2.Client
         /// Client configuration.
         /// </summary>
         public IClientConfiguration Configuration { get; set; }
+
+        public string RedirectUri { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using OAuth2.Infrastructure;
 using OAuth2.Models;
 using RestSharp;
 using RestSharp.Contrib;
+using System.Net;
 
 namespace OAuth2.Client
 {
@@ -77,18 +78,18 @@ namespace OAuth2.Client
         /// This URI includes the authentication endpoint and a redirect url,
         /// and should be used for rendering login link.
         /// </summary>
-        /// <param name = redirectDomain>
+        /// <param name="requestScheme">Specifies http or https></param>
+        /// <param name="redirectDomain">
         /// The domain for the redirect url after authentication.
         /// </param>
-        public virtual string GetCustomDomainLoginLinkUri(bool isSecure, string redirectDomain, string state = null)
+        public virtual string GetCustomDomainLoginLinkUri(string requestScheme, string redirectDomain, string state = null)
         {
-            var scheme = isSecure ? "https://" : "http://";
+            var scheme = requestScheme + "://";
             var baseUri = scheme + redirectDomain;
-            var redirectUri = (scheme + redirectDomain + Configuration.AuthPath);
 
-            Endpoint authEndpoint = new Endpoint();
-            authEndpoint.BaseUri = baseUri;
-            authEndpoint.Resource = "/authenticate/";
+            var authEndpoint = CustomDomainAccessCodeServiceEndpoint(baseUri);
+            var redirectUri = System.Uri.EscapeUriString(scheme + redirectDomain + Configuration.AuthPath);
+
             var client = _factory.CreateClient(authEndpoint);
             var request = _factory.CreateRequest(authEndpoint);
 
@@ -115,6 +116,21 @@ namespace OAuth2.Client
         }
 
         /// <summary>
+        /// Obtains user information using OAuth2 service and data provided via callback request.
+        /// Use case is for customers with custom domains (i.e. Whitelabel)
+        /// </summary>
+        /// <returns>The user info for custom domain.</returns>
+        /// <param name="parameters">Query Parameters.</param>
+        /// <param name="isSecure">Specifies whether or not the request is https or not.</param>
+        /// <param name="customDomain">Custom domain for whitelabel company.</param>
+        public UserInfo GetCustomDomainUserInfo(NameValueCollection parameters, string requestScheme, string customDomain)
+        {
+            CheckErrorAndSetState(parameters);
+            CustomDomainQueryAccessToken(parameters, requestScheme, customDomain);
+            return GetUserInfo();
+        }
+
+        /// <summary>
         /// Issues query for access token and returns access token.
         /// </summary>
         /// <param name="parameters">Callback request payload (parameters).</param>
@@ -130,10 +146,26 @@ namespace OAuth2.Client
         /// </summary>
         protected abstract Endpoint AccessCodeServiceEndpoint { get; }
 
+        private Endpoint CustomDomainAccessCodeServiceEndpoint(string baseUri)
+        {
+            Endpoint authEndpoint = new Endpoint();
+            authEndpoint.BaseUri = baseUri;
+            authEndpoint.Resource = "/authenticate/oauth/authorize";
+            return authEndpoint;
+        }
+
         /// <summary>
         /// Defines URI of service which issues access token.
         /// </summary>
         protected abstract Endpoint AccessTokenServiceEndpoint { get; }
+
+        private Endpoint CustomDomainAccessTokenServiceEndpoint(string baseUri)
+        {
+            Endpoint tokenEndpoint = new Endpoint();
+            tokenEndpoint.BaseUri = baseUri;
+            tokenEndpoint.Resource = "/authenticate/oauth/token";
+            return tokenEndpoint;
+        }
 
         /// <summary>
         /// Defines URI of service which allows to obtain information about user
@@ -170,6 +202,8 @@ namespace OAuth2.Client
                 Configuration = Configuration
             });
 
+
+
             var response = client.ExecuteAndVerify(request);
 
             AfterGetAccessToken(new BeforeAfterRequestArgs
@@ -177,6 +211,44 @@ namespace OAuth2.Client
                 Response = response,
                 Parameters = parameters
             });
+
+            AccessToken = ParseAccessTokenResponse(response.Content);
+        }
+
+        /// <summary>
+        /// Issues a query access token from the custom domain.
+        /// Use case is for whitelabel company authentication.
+        /// </summary>
+        /// <param name="parameters">Query parameters.</param>
+        /// <param name="requestScheme">Specifies https or http.</param>
+        /// <param name="customDomain">Custom domain for whitelabel company.</param>
+        private void CustomDomainQueryAccessToken(NameValueCollection parameters, string requestScheme, string customDomain)
+        {
+            var scheme = requestScheme + "://";
+            var baseUri = scheme + customDomain;
+
+            var tokenServiceEndpoint = CustomDomainAccessTokenServiceEndpoint(baseUri);
+            var client = _factory.CreateClient(tokenServiceEndpoint);
+            var request = _factory.CreateRequest(tokenServiceEndpoint, Method.POST);
+
+            var redirectUri = System.Uri.EscapeUriString(scheme + customDomain + Configuration.AuthPath);
+
+            BeforeGetAccessToken(new BeforeAfterRequestArgs
+                {
+                    Client = client,
+                    Request = request,
+                    Parameters = parameters,
+                    Configuration = Configuration,
+                    RedirectUri = redirectUri
+                });
+
+            var response = client.ExecuteAndVerify(request);
+
+            AfterGetAccessToken(new BeforeAfterRequestArgs
+                {
+                    Response = response,
+                    Parameters = parameters
+                });
 
             AccessToken = ParseAccessTokenResponse(response.Content);
         }
@@ -214,7 +286,7 @@ namespace OAuth2.Client
                 code = args.Parameters.GetOrThrowUnexpectedResponse("code"),
                 client_id = Configuration.ClientId,
                 client_secret = Configuration.ClientSecret,
-                redirect_uri = Configuration.RedirectUri,
+                redirect_uri = args.RedirectUri ?? Configuration.RedirectUri,
                 grant_type = "authorization_code"
             });
         }
